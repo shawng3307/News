@@ -11,37 +11,37 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.sampapp1.R
+import com.example.sampapp1.data.repository.NewsRepository
+import com.example.sampapp1.ui.adapter.NewsAdapter
 import com.example.sampapp1.ui.theme.SampApp1Theme
+import com.example.sampapp1.ui.viewmodel.NewsViewModel
+import com.example.sampapp1.ui.viewmodel.NewsViewModelFactory
 
 class MainActivity : ComponentActivity() {
+    private lateinit var viewModel: NewsViewModel
+    private lateinit var newsAdapter: NewsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            SampApp1Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "SKG",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
+        setContentView(R.layout.activity_main)
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        val repository = NewsRepository()
+        val viewModelFactory = NewsViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(NewsViewModel::class.java)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SampApp1Theme {
-        Greeting("SKG")
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        newsAdapter = NewsAdapter()
+        recyclerView.adapter = newsAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        viewModel.articles.observe(this, Observer { articles ->
+            newsAdapter.setArticles(articles)
+        })
+
     }
 }

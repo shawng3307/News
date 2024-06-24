@@ -1,3 +1,5 @@
+package com.example.sampapp1.data.model
+
 data class NewsArticle(
     val source: NewsSource,
     val author: String?,
