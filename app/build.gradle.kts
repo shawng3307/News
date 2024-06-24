@@ -73,5 +73,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
 }

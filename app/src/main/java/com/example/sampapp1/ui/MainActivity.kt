@@ -1,4 +1,4 @@
-package com.example.sampapp1
+package com.example.sampapp1.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
