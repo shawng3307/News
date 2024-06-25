@@ -10,5 +10,5 @@ interface ApiService {
     suspend fun getTopHeadlines(
         @Query("country") country: String,
         @Query("apiKey") apiKey: String
-    ): NewsResponse
+    ): Response<NewsResponse>
 }

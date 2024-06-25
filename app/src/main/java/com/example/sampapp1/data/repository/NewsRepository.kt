@@ -8,8 +8,17 @@ import retrofit2.Response
 class NewsRepository {
     private val apiService = RetrofitInstance.api
 
-    suspend fun getTopHeadlines(country: String, apiKey: String): NewsResponse {
-        Log.d("NewsRepository", apiKey)
-        return apiService.getTopHeadlines(country, apiKey)
+    suspend fun getTopHeadlines(country: String, apiKey: String): Result<NewsResponse> {
+        return try {
+            val response = apiService.getTopHeadlines(country, apiKey.replace("[\"']".toRegex(), ""))
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("API call failed with code ${response.code()}: ${response.errorBody()?.string()}"))
+            }
+        } catch (e: Exception) {
+            Log.e("NewsRepository", "error fetching", e)
+            Result.failure(e)
+        }
     }
 }
