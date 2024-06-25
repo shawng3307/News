@@ -10,7 +10,7 @@ class NewsRepository {
 
     suspend fun getTopHeadlines(country: String, apiKey: String): Result<NewsResponse> {
         return try {
-            val response = apiService.getTopHeadlines(country, apiKey.replace("[\"']".toRegex(), ""))
+            val response = apiService.getTopHeadlines(country, apiKey)
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
